@@ -23,3 +23,15 @@ spring:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
 server:
   port: 9090
+
+app:
+  database:
+    name: team_blue_privacy_monitoring
+    table: specification_changes
+
+  github:
+    access-token:
+
+  check-interval-ms: 5000
+
+  last-checked-time: 2022-01-30 16:00:00

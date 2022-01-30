@@ -1,5 +1,8 @@
-package cnpe.team.blue.privacychangesservice;
+package cnpe.team.blue.privacychangesservice.controller;
 
+import cnpe.team.blue.privacychangesservice.dto.SpecificationChanges;
+import cnpe.team.blue.privacychangesservice.repository.SpecificationChangesRepository;
+import cnpe.team.blue.privacychangesservice.service.FilterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -16,13 +19,17 @@ import java.util.List;
 
 @RestController
 public class SpecificationChangesController {
-    @Autowired
+
     private SpecificationChangesRepository specificationChangesRepository;
+
+    public SpecificationChangesController(SpecificationChangesRepository specificationChangesRepository) {
+        this.specificationChangesRepository = specificationChangesRepository;
+    }
 
     @GetMapping("/changes")
     @Transactional(propagation = REQUIRES_NEW)
     public HttpEntity<List<SpecificationChanges>> listSpecificationChanges(@PageableDefault(size = 5, direction = Sort.Direction.ASC) Pageable page) {
-        return ResponseEntity
-                .ok(specificationChangesRepository.findAll(page).getContent());
+        List<SpecificationChanges> specificationChanges = specificationChangesRepository.findAll(page).getContent();
+        return ResponseEntity.ok(specificationChanges);
     }
 }
