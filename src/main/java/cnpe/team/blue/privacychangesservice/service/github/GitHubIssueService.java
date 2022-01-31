@@ -1,4 +1,4 @@
-package cnpe.team.blue.privacychangesservice.service;
+package cnpe.team.blue.privacychangesservice.service.github;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

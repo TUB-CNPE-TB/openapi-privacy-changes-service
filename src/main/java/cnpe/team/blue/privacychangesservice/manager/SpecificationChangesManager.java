@@ -2,8 +2,8 @@ package cnpe.team.blue.privacychangesservice.manager;
 
 import cnpe.team.blue.privacychangesservice.dto.SpecificationChanges;
 import cnpe.team.blue.privacychangesservice.repository.SpecificationChangesRepository;
-import cnpe.team.blue.privacychangesservice.service.FilterService;
-import cnpe.team.blue.privacychangesservice.service.GitHubIssueService;
+import cnpe.team.blue.privacychangesservice.service.filter.FilterService;
+import cnpe.team.blue.privacychangesservice.service.github.GitHubIssueService;
 import com.google.gson.JsonObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

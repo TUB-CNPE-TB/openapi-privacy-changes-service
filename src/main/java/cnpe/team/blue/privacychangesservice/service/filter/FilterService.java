@@ -1,30 +1,34 @@
-package cnpe.team.blue.privacychangesservice.service;
+package cnpe.team.blue.privacychangesservice.service.filter;
 
 import cnpe.team.blue.privacychangesservice.dto.SpecificationChanges;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 @Component
 public class FilterService {
+
+    @Autowired
+    private PrivacyRulesTree privacyRulesTree;
 
     public Collection<JsonObject> filterPrivacySpecificationChanges(SpecificationChanges specificationChanges) {
         List<JsonObject> privacyChanges = new ArrayList<>();
         JsonArray differencesList = JsonParser.parseString(specificationChanges.getDifferences()).getAsJsonArray();
 
-        for (Iterator<JsonElement> it = differencesList.iterator(); it.hasNext(); ) {
-            JsonObject jsonObject = it.next().getAsJsonObject();
+        for (JsonElement element : differencesList) {
+            JsonObject jsonObject = element.getAsJsonObject();
 
-            String firstPath = jsonObject.get("path").getAsJsonArray().get(0).getAsString();
+            LinkedList<String> paths = new LinkedList<>();
+            for (JsonElement jsonElement : jsonObject.get("path").getAsJsonArray()) {
+                paths.add(jsonElement.getAsString());
+            }
 
-            if (firstPath.equals("paths") || firstPath.equals("components")) {
+            if (privacyRulesTree.isPrivacyRelatedChange(paths)) {
                 privacyChanges.add(jsonObject);
             }
         }
