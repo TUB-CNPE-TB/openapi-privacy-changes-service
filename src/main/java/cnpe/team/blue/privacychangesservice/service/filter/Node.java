@@ -1,14 +1,22 @@
 package cnpe.team.blue.privacychangesservice.service.filter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Node {
+
     private String data;
+
     private boolean endNode = false;
+
     private List<Node> children;
+
+    private List<String> privacyRelatedChangeTypes;
 
     public Node(String data) {
         this.data = data;
+        this.privacyRelatedChangeTypes = new ArrayList<>();
+        this.children = List.of();
     }
 
     public String getData() {
@@ -33,6 +41,14 @@ public class Node {
 
     public boolean isEndNode() {
         return endNode;
+    }
+
+    public List<String> getPrivacyRelatedChangeTypes() {
+        return privacyRelatedChangeTypes;
+    }
+
+    public void setPrivacyRelatedChangeTypes(List<String> privacyRelatedChangeTypes) {
+        this.privacyRelatedChangeTypes = privacyRelatedChangeTypes;
     }
 
     @Override

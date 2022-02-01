@@ -23,12 +23,14 @@ public class FilterService {
         for (JsonElement element : differencesList) {
             JsonObject jsonObject = element.getAsJsonObject();
 
+            String changeType = jsonObject.get("kind").getAsString();
+
             LinkedList<String> paths = new LinkedList<>();
             for (JsonElement jsonElement : jsonObject.get("path").getAsJsonArray()) {
                 paths.add(jsonElement.getAsString());
             }
 
-            if (privacyRulesTree.isPrivacyRelatedChange(paths)) {
+            if (privacyRulesTree.isPrivacyRelatedChange(paths, changeType)) {
                 privacyChanges.add(jsonObject);
             }
         }

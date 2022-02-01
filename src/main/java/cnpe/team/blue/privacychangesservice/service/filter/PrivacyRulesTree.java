@@ -16,21 +16,22 @@ public class PrivacyRulesTree {
         this.root.setChildren(List.of(createPathsRules(), createSchemasRules()));
     }
 
-    public boolean isPrivacyRelatedChange(LinkedList<String> paths) {
+    public boolean isPrivacyRelatedChange(LinkedList<String> paths, String changeType) {
         Node currentNode = this.root;
         String currentPath = paths.poll();
 
-        while (!currentNode.isEndNode() && currentPath != null) {
+        while (!isEndNodeReached(currentNode, changeType) && currentPath != null) {
             boolean found = false;
             for (Node childNode: currentNode.getChildren()) {
-                if (childNode.getData().equals(currentPath)) {
+                if (childNode.getData().equalsIgnoreCase(currentPath)) {
                     currentNode = childNode;
                     currentPath = paths.poll();
                     found = true;
+                    break;
                 }
             }
             if (!found) {
-                Optional<Node> anyNode = currentNode.getChildren().stream().filter(node -> node.getData().equals("any")).findFirst();
+                Optional<Node> anyNode = currentNode.getChildren().stream().filter(node -> node.getData().equalsIgnoreCase("any")).findFirst();
                 if (anyNode.isPresent()) {
                     currentNode = anyNode.get();
                     currentPath = paths.poll();
@@ -41,7 +42,11 @@ public class PrivacyRulesTree {
             }
         }
 
-        return currentNode.isEndNode();
+        return isEndNodeReached(currentNode, changeType);
+    }
+
+    private boolean isEndNodeReached(Node currentNode, String changeType) {
+        return currentNode.isEndNode() && currentNode.getPrivacyRelatedChangeTypes().stream().anyMatch(s -> s.equalsIgnoreCase(changeType));
     }
 
     private Node createSchemasRules() {
@@ -65,8 +70,10 @@ public class PrivacyRulesTree {
 
     private Node createPathsRules() {
         Node paths = createEndNode("paths");
-        Node any = new Node("any");
-        any.setEndNode();
+        paths.setPrivacyRelatedChangeTypes(List.of("N", "D"));
+
+        Node any = createEndNode("any");
+        any.setPrivacyRelatedChangeTypes(List.of("N", "D"));
 
         Node get = createPathRules("get");
         Node post = createPathRules("post");
@@ -88,8 +95,9 @@ public class PrivacyRulesTree {
     }
 
     private List<Node> createOperationObjectRules() {
-        Node parameters = new Node("parameters");
-        parameters.setEndNode();
+        Node parameters = createEndNode("parameters");
+        parameters.setPrivacyRelatedChangeTypes(List.of("A"));
+        parameters.setChildren(createParameterObjectRules());
 
         Node requestBody = new Node("requestBody");
         requestBody.setChildren(createRequestBodyObjectRules());
@@ -97,10 +105,21 @@ public class PrivacyRulesTree {
         Node responses = new Node("responses");
         responses.setChildren(createResponseBodyObjectRules());
 
-        Node callbacks = new Node("callbacks");
-        callbacks.setEndNode();
+        Node callbacks = createEndNode("callbacks");
 
         return List.of(parameters, requestBody, responses, callbacks);
+    }
+
+    private List<Node> createParameterObjectRules() {
+        Node any = new Node("any");
+
+        Node name = createEndNode("name");
+        Node in = createEndNode("in");
+        Node schema = createEndNode("schema");
+        Node ref = createEndNode("$ref");
+        any.setChildren(List.of(name, ref, schema, in));
+
+        return List.of(any);
     }
 
     private List<Node> createResponseBodyObjectRules() {
@@ -114,6 +133,7 @@ public class PrivacyRulesTree {
     private Node createEndNode(String name) {
         Node endNode = new Node(name);
         endNode.setEndNode();
+        endNode.setPrivacyRelatedChangeTypes(List.of("N", "D", "A", "E"));
         return endNode;
     }
 }

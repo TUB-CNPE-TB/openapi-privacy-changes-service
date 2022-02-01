@@ -21,7 +21,7 @@ public class PrivacyRulesTreeTest {
         path.add("get");
         path.add("parameters");
 
-        assert privacyRulesTree.isPrivacyRelatedChange(path);
+        assert privacyRulesTree.isPrivacyRelatedChange(path, "A");
 
         path.clear();
         path.add("paths");
@@ -31,7 +31,7 @@ public class PrivacyRulesTreeTest {
         path.add("test");
         path.add("name");
 
-        assert privacyRulesTree.isPrivacyRelatedChange(path);
+        assert privacyRulesTree.isPrivacyRelatedChange(path, "E");
 
         path.clear();
         path.add("paths");
@@ -41,7 +41,20 @@ public class PrivacyRulesTreeTest {
         path.add("test");
         path.add("$ref");
 
-        assert privacyRulesTree.isPrivacyRelatedChange(path);
+        assert privacyRulesTree.isPrivacyRelatedChange(path, "E");
+    }
+
+    @Test
+    public void testParametersDescription() {
+        LinkedList<String> path = new LinkedList<>();
+        path.add("paths");
+        path.add("test");
+        path.add("get");
+        path.add("parameters");
+        path.add("test");
+        path.add("description");
+
+        assert !privacyRulesTree.isPrivacyRelatedChange(path, "E");
     }
 
     @Test
@@ -53,7 +66,7 @@ public class PrivacyRulesTreeTest {
         path.add("requestBody");
         path.add("content");
 
-        assert privacyRulesTree.isPrivacyRelatedChange(path);
+        assert privacyRulesTree.isPrivacyRelatedChange(path, "E");
 
         path.clear();
         path.add("paths");
@@ -62,7 +75,7 @@ public class PrivacyRulesTreeTest {
         path.add("requestBody");
         path.add("$ref");
 
-        assert privacyRulesTree.isPrivacyRelatedChange(path);
+        assert privacyRulesTree.isPrivacyRelatedChange(path, "E");
     }
 
     @Test
@@ -74,7 +87,7 @@ public class PrivacyRulesTreeTest {
         path.add("responses");
         path.add("content");
 
-        assert privacyRulesTree.isPrivacyRelatedChange(path);
+        assert privacyRulesTree.isPrivacyRelatedChange(path, "N");
 
         path.clear();
         path.add("paths");
@@ -83,7 +96,7 @@ public class PrivacyRulesTreeTest {
         path.add("responses");
         path.add("headers");
 
-        assert privacyRulesTree.isPrivacyRelatedChange(path);
+        assert privacyRulesTree.isPrivacyRelatedChange(path, "A");
 
         path.clear();
         path.add("paths");
@@ -92,7 +105,7 @@ public class PrivacyRulesTreeTest {
         path.add("responses");
         path.add("$ref");
 
-        assert privacyRulesTree.isPrivacyRelatedChange(path);
+        assert privacyRulesTree.isPrivacyRelatedChange(path, "E");
     }
 
     @Test
@@ -103,7 +116,7 @@ public class PrivacyRulesTreeTest {
         path.add("get");
         path.add("callbacks");
 
-        assert privacyRulesTree.isPrivacyRelatedChange(path);
+        assert privacyRulesTree.isPrivacyRelatedChange(path, "N");
     }
 
     @Test
@@ -113,6 +126,6 @@ public class PrivacyRulesTreeTest {
         path.add("schemas");
         path.add("test");
 
-        assert privacyRulesTree.isPrivacyRelatedChange(path);
+        assert privacyRulesTree.isPrivacyRelatedChange(path, "E");
     }
 }
