@@ -69,8 +69,7 @@ public class PrivacyRulesTree {
     }
 
     private Node createPathsRules() {
-        Node paths = createEndNode("paths");
-        paths.setPrivacyRelatedChangeTypes(List.of("N", "D"));
+        Node paths = new Node("paths");
 
         Node any = createEndNode("any");
         any.setPrivacyRelatedChangeTypes(List.of("N", "D"));
@@ -123,7 +122,10 @@ public class PrivacyRulesTree {
     }
 
     private List<Node> createResponseBodyObjectRules() {
-        return List.of(createEndNode("headers"), createEndNode("content"), createEndNode("$ref"));
+        Node any = new Node("any");
+
+        any.setChildren(List.of(createEndNode("headers"), createEndNode("content"), createEndNode("$ref")));
+        return List.of(any);
     }
 
     private List<Node> createRequestBodyObjectRules() {

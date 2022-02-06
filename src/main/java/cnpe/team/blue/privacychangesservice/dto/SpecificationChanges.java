@@ -8,7 +8,7 @@ import javax.persistence.*;
 import com.fasterxml.jackson.annotation.JsonRawValue;
 
 @Entity
-@Table(name = "${app.database.name}.${app.database.table}")
+@Table(name = "team_blue_privacy_monitoring.specification_changes")
 public class SpecificationChanges {
     
     @Id
@@ -28,6 +28,14 @@ public class SpecificationChanges {
     @JsonRawValue
     private String differences;
 
+    @Column(columnDefinition = "json")
+    @JsonRawValue
+    private String sourceSpecification;
+
+    @Column(columnDefinition = "json")
+    @JsonRawValue
+    private String changedSpecification;
+
     public UUID getId() {
         return id;
     }
@@ -46,6 +54,22 @@ public class SpecificationChanges {
 
     public String getCommit() {
         return commit;
+    }
+
+    public String getSourceSpecification() {
+        return sourceSpecification;
+    }
+
+    public void setSourceSpecification(String sourceSpecification) {
+        this.sourceSpecification = sourceSpecification;
+    }
+
+    public String getChangedSpecification() {
+        return changedSpecification;
+    }
+
+    public void setChangedSpecification(String changedSpecification) {
+        this.changedSpecification = changedSpecification;
     }
 
     @Override
