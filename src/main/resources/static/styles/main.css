@@ -9,3 +9,7 @@
     margin-right: auto;
     max-width: 70%;
 }
+
+.list-group .list-group-item {
+    border: none;
+}

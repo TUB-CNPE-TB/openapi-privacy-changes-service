@@ -46,7 +46,7 @@ public class SpecificationChangesManager {
         for (SpecificationChanges specificationChanges: latestSpecificationChanges) {
             Collection<JsonObject> privacyRelatedChanges = filterService.filterPrivacySpecificationChanges(specificationChanges);
             if (!privacyRelatedChanges.isEmpty()) {
-                gitHubIssueService.createIssue(specificationChanges.getServiceName(), specificationChanges.getCommit(), privacyRelatedChanges);
+                gitHubIssueService.createIssue(specificationChanges.getId().toString(), specificationChanges.getServiceName(), specificationChanges.getCommit(), privacyRelatedChanges);
             }
 
             if (specificationChanges.getCreated().toLocalDateTime().compareTo(lastCheck) > 0) {
