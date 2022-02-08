@@ -16,6 +16,10 @@ public class PrivacyRulesTree {
         this.root.setChildren(List.of(createPathsRules(), createSchemasRules()));
     }
 
+    public Node getRoot() {
+        return root;
+    }
+
     public boolean isPrivacyRelatedChange(LinkedList<String> paths, String changeType) {
         Node currentNode = this.root;
         String currentPath = paths.poll();
@@ -54,13 +58,15 @@ public class PrivacyRulesTree {
         Node schemas = createEndNode("schemas");
 
         Node responses = new Node("responses");
-        Node responsesAny = new Node("any");
+        Node responsesAny = createEndNode("any");
+        responsesAny.setPrivacyRelatedChangeTypes(List.of("N", "D"));
         responsesAny.setChildren(createResponseBodyObjectRules());
         responses.setChildren(List.of(responsesAny));
 
         Node requestBodies = new Node("requestBodies");
-        Node requestBodyAny = new Node("any");
-        responsesAny.setChildren(createRequestBodyObjectRules());
+        Node requestBodyAny = createEndNode("any");
+        requestBodyAny.setPrivacyRelatedChangeTypes(List.of("N", "D"));
+        requestBodyAny.setChildren(createRequestBodyObjectRules());
         requestBodies.setChildren(List.of(requestBodyAny));
 
         components.setChildren(List.of(schemas, responses, requestBodies));

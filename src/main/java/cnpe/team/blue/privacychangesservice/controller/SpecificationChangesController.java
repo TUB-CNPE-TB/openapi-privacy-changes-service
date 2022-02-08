@@ -4,6 +4,7 @@ import cnpe.team.blue.privacychangesservice.dto.SpecificationChanges;
 import cnpe.team.blue.privacychangesservice.dto.SpecificationChangesVisualizationModel;
 import cnpe.team.blue.privacychangesservice.repository.SpecificationChangesRepository;
 import cnpe.team.blue.privacychangesservice.service.filter.FilterService;
+import cnpe.team.blue.privacychangesservice.service.visualization.PrivacyRulesTreeVisualizer;
 import cnpe.team.blue.privacychangesservice.service.visualization.VisualizationConverter;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -32,6 +33,9 @@ public class SpecificationChangesController {
 
     @Autowired
     private FilterService filterService;
+
+    @Autowired
+    private PrivacyRulesTreeVisualizer privacyRulesTreeVisualizer;
 
     @GetMapping("/index")
     public String listPrivacyChanges(Model model) {
@@ -63,5 +67,16 @@ public class SpecificationChangesController {
         model.addAttribute("privacyRelatedChanges", privacyRelatedChanges.stream().map(gson::toJson).toArray());
 
         return "privacyChangesVisualization";
+    }
+
+    @GetMapping("/privacyRulesTree")
+    public String privacyRulesTree(Model model) {
+
+        JsonObject privacyRulesTree = privacyRulesTreeVisualizer.parseTree();
+
+        Gson gson = new Gson();
+        model.addAttribute("privacyRulesTree", gson.toJson(privacyRulesTree));
+
+        return "privacyRulesTree";
     }
 }
