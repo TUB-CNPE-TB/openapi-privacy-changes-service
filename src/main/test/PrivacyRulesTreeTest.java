@@ -1,4 +1,4 @@
-import cnpe.team.blue.privacychangesservice.service.filter.PrivacyRulesTree;
+import cnpe.team.blue.privacychangesservice.service.filter.openapi.PrivacyRulesTree;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

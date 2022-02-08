@@ -1,7 +1,7 @@
 package cnpe.team.blue.privacychangesservice.service.visualization;
 
-import cnpe.team.blue.privacychangesservice.service.filter.Node;
-import cnpe.team.blue.privacychangesservice.service.filter.PrivacyRulesTree;
+import cnpe.team.blue.privacychangesservice.service.filter.openapi.Node;
+import cnpe.team.blue.privacychangesservice.service.filter.openapi.PrivacyRulesTree;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package cnpe.team.blue.privacychangesservice.service.filter;
+package cnpe.team.blue.privacychangesservice.service.filter.openapi;
 
 import java.util.ArrayList;
 import java.util.List;

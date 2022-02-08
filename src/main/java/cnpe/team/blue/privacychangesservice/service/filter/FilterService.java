@@ -1,40 +1,41 @@
 package cnpe.team.blue.privacychangesservice.service.filter;
 
+import cnpe.team.blue.privacychangesservice.dto.FilterType;
 import cnpe.team.blue.privacychangesservice.dto.SpecificationChanges;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
+import cnpe.team.blue.privacychangesservice.service.filter.openapi.OpenAPIFilterService;
+import cnpe.team.blue.privacychangesservice.service.filter.tira.TIRAFilterService;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.Collection;
 
 @Component
 public class FilterService {
 
     @Autowired
-    private PrivacyRulesTree privacyRulesTree;
+    private OpenAPIFilterService openAPIFilterService;
+
+    @Autowired
+    private TIRAFilterService tiraFilterService;
 
     public Collection<JsonObject> filterPrivacySpecificationChanges(SpecificationChanges specificationChanges) {
-        List<JsonObject> privacyChanges = new ArrayList<>();
-        JsonArray differencesList = JsonParser.parseString(specificationChanges.getDifferences()).getAsJsonArray();
-
-        for (JsonElement element : differencesList) {
-            JsonObject jsonObject = element.getAsJsonObject();
-
-            String changeType = jsonObject.get("kind").getAsString();
-
-            LinkedList<String> paths = new LinkedList<>();
-            for (JsonElement jsonElement : jsonObject.get("path").getAsJsonArray()) {
-                paths.add(jsonElement.getAsString());
-            }
-
-            if (privacyRulesTree.isPrivacyRelatedChange(paths, changeType)) {
-                privacyChanges.add(jsonObject);
-            }
+        Collection<JsonObject> privacyRelatedChanges;
+        if (tiraFilterService.isTIRAIncludedInSpecification(specificationChanges)) {
+            privacyRelatedChanges = tiraFilterService.filterPrivacySpecificationChanges(specificationChanges);
         }
+        else {
+            privacyRelatedChanges = openAPIFilterService.filterPrivacySpecificationChanges(specificationChanges);
+        }
+        return privacyRelatedChanges;
+    }
 
-        return privacyChanges;
+    public FilterType getUsedFilter(SpecificationChanges specificationChanges) {
+        if (tiraFilterService.isTIRAIncludedInSpecification(specificationChanges)) {
+            return FilterType.tira;
+        }
+        else {
+            return FilterType.tree;
+        }
     }
 }

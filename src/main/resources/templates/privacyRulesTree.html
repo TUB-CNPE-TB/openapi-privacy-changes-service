@@ -21,10 +21,7 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="/index">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="/privacyRulesTree">Privacy Rules Tree</a>
+          <a class="nav-link active" aria-current="page" href="/">Home</a>
         </li>
       </ul>
     </div>
@@ -101,6 +98,34 @@ function graph(root, {
         .style("font-size", "12px")
         .style("text-decoration", "underline")
         .text("HTTP Methods: GET, POST, PUT, PATCH, DELETE, HEAD");
+
+  svg.append("text")
+        .attr("x", (10))
+        .attr("y", (70))
+        .attr("text-anchor", "left")
+        .style("font-size", "12px")
+        .text("END: A - If node is an array then all changes done to the array are privacy related.");
+
+  svg.append("text")
+        .attr("x", (10))
+        .attr("y", (90))
+        .attr("text-anchor", "left")
+        .style("font-size", "12px")
+        .text("END: E - If node value is primitive and edited then it is a privacy related change.");
+
+  svg.append("text")
+        .attr("x", (10))
+        .attr("y", (110))
+        .attr("text-anchor", "left")
+        .style("font-size", "12px")
+        .text("END: N - If node has new child, then this is a privacy related change.");
+
+  svg.append("text")
+        .attr("x", (10))
+        .attr("y", (130))
+        .attr("text-anchor", "left")
+        .style("font-size", "12px")
+        .text("END: D - If node is deleted, then it is a privacy related change.");
 
   const g = svg.append("g")
       .attr("font-family", "sans-serif")

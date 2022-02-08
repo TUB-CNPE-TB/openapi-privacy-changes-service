@@ -19,10 +19,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/index">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/privacyRulesTree">Privacy Rules Tree</a>
+                    <a class="nav-link active" aria-current="page" href="/">Home</a>
                 </li>
             </ul>
         </div>
@@ -38,6 +35,7 @@
         <th scope="col"> Commit </th>
         <th scope="col"> Number of privacy related changes </th>
         <th scope="col"> Visualization of privacy related changes </th>
+        <th scope="col"> Filter Type </th>
     </tr>
     </thead>
     <tbody>
@@ -47,6 +45,7 @@
         <td><a th:href="@{https://github.com/{serviceName}/commit/{commit}(serviceName=${change.specificationChanges.serviceName}, commit=${change.specificationChanges.commit})}" th:text="${change.specificationChanges.commit}" target="_blank"></a></td>
         <td><span th:text="${change.privacyRelatedChangesCount}"></span></td>
         <td><a th:href="@{/privacyChanges/{id}(id=${change.specificationChanges.id})}">View</a></td>
+        <td><span th:text="${change.filterType}"></span></td>
     </tr>
     </tbody>
 </table>

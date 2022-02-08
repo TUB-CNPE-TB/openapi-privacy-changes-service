@@ -37,14 +37,14 @@ public class SpecificationChangesController {
     @Autowired
     private PrivacyRulesTreeVisualizer privacyRulesTreeVisualizer;
 
-    @GetMapping("/index")
+    @GetMapping("/")
     public String listPrivacyChanges(Model model) {
 
         List<SpecificationChangesVisualizationModel> visualizationModels =
                 specificationChangesRepository.findAll()
                         .stream()
                         .sorted(Comparator.comparing(SpecificationChanges::getCreated).reversed())
-                        .map(s -> new SpecificationChangesVisualizationModel(s, filterService.filterPrivacySpecificationChanges(s).size()))
+                        .map(s -> new SpecificationChangesVisualizationModel(s, filterService.filterPrivacySpecificationChanges(s).size(), filterService.getUsedFilter(s)))
                         .collect(Collectors.toList());
         model.addAttribute("privacyChanges", visualizationModels);
 
@@ -65,6 +65,7 @@ public class SpecificationChangesController {
         model.addAttribute("sourceSpecification", gson.toJson(sourceSpecification));
         model.addAttribute("changedSpecification", gson.toJson(changedSpecification));
         model.addAttribute("privacyRelatedChanges", privacyRelatedChanges.stream().map(gson::toJson).toArray());
+        model.addAttribute("filterType", filterService.getUsedFilter(specificationChanges).toString());
 
         return "privacyChangesVisualization";
     }

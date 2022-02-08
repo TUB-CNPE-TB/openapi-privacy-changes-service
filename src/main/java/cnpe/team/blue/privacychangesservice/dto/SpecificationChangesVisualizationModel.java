@@ -10,10 +10,13 @@ public class SpecificationChangesVisualizationModel {
 
     private int privacyRelatedChangesCount;
 
-    public SpecificationChangesVisualizationModel(SpecificationChanges specificationChanges, int privacyRelatedChangesCount) {
+    private FilterType filterType;
+
+    public SpecificationChangesVisualizationModel(SpecificationChanges specificationChanges, int privacyRelatedChangesCount, FilterType filterType) {
         this.specificationChanges = specificationChanges;
         this.privacyRelatedChangesCount = privacyRelatedChangesCount;
         this.date = specificationChanges.getCreated().toLocalDateTime().format(DateTimeFormatter.ofPattern("HH:mm yyyy-MM-dd"));
+        this.filterType = filterType;
     }
 
     public SpecificationChanges getSpecificationChanges() {
@@ -38,5 +41,13 @@ public class SpecificationChangesVisualizationModel {
 
     public void setPrivacyRelatedChangesCount(int privacyRelatedChangesCount) {
         this.privacyRelatedChangesCount = privacyRelatedChangesCount;
+    }
+
+    public FilterType getFilterType() {
+        return filterType;
+    }
+
+    public void setFilterType(FilterType filterType) {
+        this.filterType = filterType;
     }
 }

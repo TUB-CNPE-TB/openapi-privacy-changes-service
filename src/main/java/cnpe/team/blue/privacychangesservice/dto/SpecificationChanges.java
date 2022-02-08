@@ -40,20 +40,36 @@ public class SpecificationChanges {
         return id;
     }
 
-    public String getDifferences() {
-        return differences;
-    }
-
     public Timestamp getCreated() {
         return created;
+    }
+
+    public void setCreated(Timestamp created) {
+        this.created = created;
     }
 
     public String getServiceName() {
         return serviceName;
     }
 
+    public void setServiceName(String serviceName) {
+        this.serviceName = serviceName;
+    }
+
     public String getCommit() {
         return commit;
+    }
+
+    public void setCommit(String commit) {
+        this.commit = commit;
+    }
+
+    public String getDifferences() {
+        return differences;
+    }
+
+    public void setDifferences(String differences) {
+        this.differences = differences;
     }
 
     public String getSourceSpecification() {
