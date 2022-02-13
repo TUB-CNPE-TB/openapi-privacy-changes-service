@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>cnpe.team.blue</groupId>
 	<artifactId>privacy-changes-service</artifactId>
-	<version>0.0.1</version>
+	<version>1.0.0</version>
 	<name>privacy-changes-service</name>
 	<description>Privacy Changes Service</description>
 	<properties>

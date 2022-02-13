@@ -94,6 +94,7 @@ public class PrivacyRulesTreeTest {
         path.add("test");
         path.add("get");
         path.add("responses");
+        path.add("0");
         path.add("headers");
 
         assert privacyRulesTree.isPrivacyRelatedChange(path, "A");
@@ -103,6 +104,7 @@ public class PrivacyRulesTreeTest {
         path.add("test");
         path.add("get");
         path.add("responses");
+        path.add("1");
         path.add("$ref");
 
         assert privacyRulesTree.isPrivacyRelatedChange(path, "E");
